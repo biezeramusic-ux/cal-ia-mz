@@ -15,21 +15,18 @@ interface Props {
  */
 export function PetalChart({ ingredients, calories, size = 300 }: Props) {
   const c = size / 2;
-  const hole = size * 0.15;
-  const maxLen = size / 2 - hole - 6;
+  const hole = size * 0.13;
+  const maxLen = size / 2 - 8;
   const maxPct = Math.max(...ingredients.map((i) => i.percent), 1);
-  const totalPct = ingredients.reduce((s, i) => s + i.percent, 0) || 1;
 
-  let cum = 0;
-  const petals = ingredients.map((ing) => {
-    const share = (ing.percent / totalPct) * 100;
-    const mid = ((cum + share / 2) / 100) * 360;
-    cum += share;
-    const len = maxLen * (0.55 + 0.45 * (ing.percent / maxPct));
-    const arc = 2 * Math.PI * (hole + len / 2) * (share / 100);
-    const w = Math.min(Math.max(arc * 0.5, 16), size * 0.17);
+  // Pétalas igualmente espaçadas (flor); o tamanho de cada uma reflete a sua percentagem.
+  const step = 360 / Math.max(ingredients.length, 1);
+  const petals = ingredients.map((ing, idx) => {
+    const mid = idx * step;
+    const len = maxLen * (0.5 + 0.5 * (ing.percent / maxPct));
+    const w = len * Math.min(0.42, (step / 360) * 1.6);
     const rad = ((mid - 90) * Math.PI) / 180;
-    const labelR = hole + len * 0.58;
+    const labelR = len * 0.62;
     return { ing, mid, len, w, lx: c + labelR * Math.cos(rad), ly: c + labelR * Math.sin(rad) };
   });
 
@@ -37,23 +34,22 @@ export function PetalChart({ ingredients, calories, size = 300 }: Props) {
     <View style={styles.wrap}>
       <Svg width={size} height={size}>
         {petals.map(({ ing, mid, len, w }) => {
-          const top = -(hole + len);
-          const d = `M0 ${-hole} C ${-w * 1.2} ${-hole - len * 0.15}, ${-w * 1.2} ${top - len * 0.08}, 0 ${top} C ${w * 1.2} ${top - len * 0.08}, ${w * 1.2} ${-hole - len * 0.15}, 0 ${-hole} Z`;
+          const d = `M0 0 C ${-w} ${-len * 0.2}, ${-w} ${-len * 0.9}, 0 ${-len} C ${w} ${-len * 0.9}, ${w} ${-len * 0.2}, 0 0 Z`;
           return (
             <G key={ing.name} transform={`translate(${c} ${c}) rotate(${mid})`}>
-              <Path d={d} fill={ing.color} fillOpacity={0.9} stroke="#FFFFFF" strokeWidth={3} strokeLinejoin="round" />
+              <Path d={d} fill={ing.color} fillOpacity={0.92} stroke="#FFFFFF" strokeWidth={3} strokeLinejoin="round" />
             </G>
           );
         })}
         <Circle cx={c} cy={c} r={hole + 4} fill="#FFFFFF" />
-        <SvgText x={c} y={c + 2} fontSize={size * 0.065} fontWeight="800" fill={colors.text} textAnchor="middle">
+        <SvgText x={c} y={c + 2} fontFamily="System" fontSize={size * 0.065} fontWeight="800" fill={colors.text} textAnchor="middle">
           {calories}
         </SvgText>
         <SvgText x={c} y={c + size * 0.06} fontSize={size * 0.036} fill={colors.muted} textAnchor="middle">
           kcal
         </SvgText>
         {petals.map(({ ing, lx, ly }) =>
-          ing.percent >= 7 ? (
+          ing.percent >= 5 ? (
             <SvgText
               key={`t-${ing.name}`}
               x={lx}

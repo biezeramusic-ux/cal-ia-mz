@@ -4,3 +4,4 @@ dist/
 *.log
 .env
 expo-env.d.ts
+screens/

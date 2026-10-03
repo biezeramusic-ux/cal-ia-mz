@@ -1,0 +1,47 @@
+{
+  "expo": {
+    "name": "Cal IA MZ",
+    "slug": "cal-ia-mz",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "mz.calia.app",
+      "infoPlist": {
+        "NSCameraUsageDescription": "A câmara é usada para fotografar e analisar os seus pratos."
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#E6F4FE",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false,
+      "package": "mz.calia.app",
+      "permissions": [
+        "CAMERA"
+      ]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "A câmara é usada para fotografar e analisar os seus pratos."
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Aceder às fotos para analisar pratos."
+        }
+      ]
+    ]
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "expo": {
+    "name": "Nutriftness IA",
+    "slug": "nutriftness-ia",
+    "version": "1.0.0",
+    "scheme": "nutriftness",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "mz.nutriftness.ia",
+      "infoPlist": {
+        "NSCameraUsageDescription": "Nutriftness IA usa a câmera para fotografar a sua refeição.",
+        "NSPhotoLibraryUsageDescription": "Nutriftness IA acede à galeria para analisar fotos de refeições."
+      }
+    },
+    "android": {
+      "package": "mz.nutriftness.ia",
+      "permissions": ["CAMERA"]
+    },
+    "plugins": [
+      "expo-router",
+      ["expo-camera", { "cameraPermission": "Nutriftness IA usa a câmera para fotografar a sua refeição." }],
+      ["expo-image-picker", { "photosPermission": "Nutriftness IA acede à galeria para analisar fotos de refeições." }]
+    ],
+    "experiments": { "typedRoutes": true }
+  }
+}
